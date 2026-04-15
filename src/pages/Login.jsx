@@ -171,14 +171,14 @@ function Login() {
               <hr className="my-4" />
 
               {/* Demo Info */}
-              <div className="text-center">
+              {/* <div className="text-center">
                 <small className="text-muted">
                   <strong>Demo Credentials:</strong><br />
                   👨‍💼 Admin: admin@test.com / admin123<br />
                   🏢 Employer: employer@test.com / password123<br />
                   👨‍💻 Job Seeker: john@test.com / password123
                 </small>
-              </div>
+              </div> */}
 
             </div>
           </div>
