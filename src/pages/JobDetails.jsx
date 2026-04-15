@@ -38,6 +38,12 @@ function JobDetails() {
       return;
     }
 
+    // Prevent employers from applying
+    if (user.role === 'employer') {
+      setMessage({ type: "error", text: "Employers cannot apply for jobs. Only job seekers can apply." });
+      return;
+    }
+
     setApplying(true);
     try {
       await applyForJob(id);
@@ -55,6 +61,12 @@ function JobDetails() {
       navigate('/login');
       return;
     }
+
+    // Optionally restrict saving jobs for employers (uncomment if needed)
+    // if (user.role === 'employer') {
+    //   setMessage({ type: "error", text: "Employers cannot save jobs." });
+    //   return;
+    // }
 
     setSaving(true);
     try {
@@ -158,13 +170,20 @@ function JobDetails() {
                   <FaSave className="me-2" />
                   {saving ? "Saving..." : "Save for Later"}
                 </button>
-                <button 
-                  className="btn btn-primary px-5 fw-semibold"
-                  onClick={handleApply}
-                  disabled={applying}
-                >
-                  {applying ? "Applying..." : "Apply Now"}
-                </button>
+                {user && user.role === 'employer' ? (
+                  <span className="text-muted align-self-center">
+                    <FaCheckCircle className="me-2" />
+                    Employers cannot apply for jobs
+                  </span>
+                ) : (
+                  <button 
+                    className="btn btn-primary px-5 fw-semibold"
+                    onClick={handleApply}
+                    disabled={applying}
+                  >
+                    {applying ? "Applying..." : "Apply Now"}
+                  </button>
+                )}
               </div>
             </div>
           </div>
