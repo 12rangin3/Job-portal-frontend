@@ -29,11 +29,11 @@ export const AuthProvider = ({ children }) => {
           token,
           name: userData.name,
           role: userData.role,
-          userId: userData.id,
+          userId: userData._id || userData.id,
           companyName: userData.companyName || null,
         });
       } catch (error) {
-        console.error("Auth restore failed:", error);
+        console.error("Auth restore failed:", error.response?.data || error.message);
 
         // Token invalid → clear storage
         localStorage.clear();
@@ -49,9 +49,11 @@ export const AuthProvider = ({ children }) => {
   // 🔹 LOGIN
   const login = async (credentials) => {
     try {
+      console.log('🔐 AuthContext: Logging in with:', credentials.email);
       const response = await loginUser(credentials);
 
       const { token, user } = response.data;
+      console.log('✅ AuthContext: Login response:', { token: token.substring(0, 30) + '...', user });
 
       localStorage.setItem("token", token);
       localStorage.setItem("userName", user.name);
@@ -71,11 +73,17 @@ export const AuthProvider = ({ children }) => {
 
       return { success: true, user };
     } catch (error) {
+      console.error('❌ AuthContext: Login failed');
+      console.error('Error object:', error);
+      console.error('Response data:', error.response?.data);
+      console.error('Error message:', error.message);
+      
       return {
         success: false,
         error:
           error.response?.data?.message ||
           error.response?.data?.errors?.[0]?.msg ||
+          error.message ||
           "Login failed",
       };
     }

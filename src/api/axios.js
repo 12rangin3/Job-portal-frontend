@@ -13,7 +13,21 @@ API.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  console.log(`📡 API Request: ${config.method.toUpperCase()} ${config.baseURL}${config.url}`);
   return config;
 });
+
+// Add response interceptor for better error logging
+API.interceptors.response.use(
+  (response) => {
+    console.log(`✅ API Response: ${response.status} from ${response.config.url}`);
+    return response;
+  },
+  (error) => {
+    console.error(`❌ API Error: ${error.response?.status || 'Network Error'} from ${error.config?.url}`);
+    console.error('Error response:', error.response?.data || error.message);
+    return Promise.reject(error);
+  }
+);
 
 export default API;

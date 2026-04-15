@@ -41,21 +41,30 @@ function Login() {
     setError("");
 
     try {
-      const result = await login(formData);
+      console.log('🔐 Frontend: Attempting login with:', formData.email);
+      const result = await login({ email: formData.email, password: formData.password });
+      
+      console.log('📧 Frontend: Login result:', result);
 
       if (result.success) {
+        console.log('✅ Frontend: Login successful, redirecting...');
         // Redirect based on role
         if (result.user?.role === "admin") {
+          console.log('→ Redirecting to /admin');
           navigate("/admin");
         } else if (result.user?.role === "employer") {
+          console.log('→ Redirecting to /employer/dashboard');
           navigate("/employer/dashboard");
         } else {
+          console.log('→ Redirecting to /jobs');
           navigate("/jobs"); // jobseeker
         }
       } else {
+        console.error('❌ Frontend: Login failed:', result.error);
         setError(result.error || "Login failed");
       }
     } catch (err) {
+      console.error('❌ Frontend: Exception during login:', err.message);
       setError("Something went wrong. Please try again.");
     }
 
