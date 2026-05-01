@@ -21,6 +21,7 @@ import JobDetails from "./pages/JobDetails";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
 import MyApplications from "./pages/MyApplications";
 import SavedJobs from "./pages/SavedJobs";
 
@@ -42,6 +43,11 @@ function App() {
             <Route path="/dashboard" element={
               <ProtectedRoute allowedRoles={['jobseeker', 'admin']}>
                 <Dashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute allowedRoles={['jobseeker']}>
+                <Profile />
               </ProtectedRoute>
             } />
             <Route path="/my-applications" element={

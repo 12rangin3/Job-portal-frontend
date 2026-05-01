@@ -56,8 +56,10 @@ function Dashboard() {
                 Phone: {profile?.phone}
               </p>
               <button className="btn btn-outline-primary btn-sm">
-                <FaEdit className="me-2" />
-                Edit Profile
+                <Link to="/profile" className="text-decoration-none text-primary">
+                  <FaEdit className="me-2" />
+                  Edit Profile
+                </Link>
               </button>
             </div>
           </div>
